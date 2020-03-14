@@ -1,10 +1,15 @@
 package com.example.androidassessment;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
 import com.example.androidassessment.dummy.DummyContent;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements ContactFragment.OnListFragmentInteractionListener {
 
@@ -19,20 +24,17 @@ public class MainActivity extends AppCompatActivity implements ContactFragment.O
 //        setContentView(R.layout.fragment_contact_list);
 
         // Taken from ppt week 2
-//        RecyclerView recyclerView = findViewById(R.id.contact_list);
+        RecyclerView recyclerView = findViewById(R.id.contact_list);
 
-//        recyclerView.LayoutManager = new LinerLayoutManager(this);
-//        recyclerView.
-//
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-//
-//        List<Pokemon> list = new ArrayList<>();
-//
-//        list.add(new Pokemon(R.drawable.bulbasaur, "Bulbasaur"));
-//        list.add(new Pokemon(R.drawable.dragonite, "Dragonite"));
-//        list.add(new Pokemon(R.drawable.pikachu, "Pikachu"));
-//
-//        recyclerView.setAdapter(new PokemonAdapter(list));
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        List<Contact> list = new ArrayList<>();
+
+        list.add(new Contact("Bulbasaur", "123"));
+        list.add(new Contact("Dragonite", "456"));
+        list.add(new Contact("Pikachu", "789"));
+
+        recyclerView.setAdapter(new ContactAdapter(list));
     }
 
     @Override

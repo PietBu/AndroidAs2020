@@ -4,13 +4,12 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/imageView"
+    <TextView
+        android:id="@+id/nickView"
         android:layout_width="96dp"
         android:layout_height="96dp"
         android:layout_gravity="center_vertical"
-        android:layout_weight="0"
-        android:contentDescription="Image of the contact" />
+        android:layout_weight="0"/>
 
     <TextView
         android:id="@+id/textView"
