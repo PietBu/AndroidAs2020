@@ -12,8 +12,13 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
 {
     private List<Contact> dataset;
 
+    public ContactAdapter(List<Contact> contactList)
+    {
+        dataset = contactList;
+    }
+
     @Override
-    public ContactAdapter.ContactViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ContactViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.contact_item, parent, false);
 
@@ -22,7 +27,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
 
     @Override
     public void onBindViewHolder(ContactAdapter.ContactViewHolder holder, int position) {
-
+        holder.name.setText(dataset.get(position).name);
+        holder.phoneNumber.setText(dataset.get(position).phoneNumber);
     }
 
     @Override

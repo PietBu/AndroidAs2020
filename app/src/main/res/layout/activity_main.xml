@@ -17,12 +17,4 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </LinearLayout>
-
-
-
-
-<!--    <fragment-->
-<!--        android:layout_width=""-->
-<!--        android:layout_height="" />-->
-
 </androidx.constraintlayout.widget.ConstraintLayout>

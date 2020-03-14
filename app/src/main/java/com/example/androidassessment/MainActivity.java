@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     final int READ_CONTACT_PERMISSION_REQUEST = 1;
     boolean READ_CONTACT_PERMISSION_GRANTED = false;
+    List<Contact> contactList;
 
     @Override
     // - Startup splash screen
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        List<Contact> list = new ArrayList<>();
+        contactList = new ArrayList<>();
 
         if(ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED)
@@ -39,20 +40,14 @@ public class MainActivity extends AppCompatActivity {
                     new String[]{Manifest.permission.READ_CONTACTS}, READ_CONTACT_PERMISSION_REQUEST);
         }
 
-        if(READ_CONTACT_PERMISSION_GRANTED)
-        {
-            // Read Contacts
-            readContacts();
-
-        }
-
-
-
+        // Read Contacts
+        readContacts();
+        Toast.makeText(this, "Contacts Added.", Toast.LENGTH_SHORT).show();
+        recyclerView.setAdapter(new ContactAdapter(contactList));
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults)
-    {
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch(requestCode)
         {
             case READ_CONTACT_PERMISSION_REQUEST:
@@ -66,12 +61,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void readContacts(){
-        
-
-
-
-
-
+    private void readContacts() {
+        contactList.add(new Contact("Maarten", "0631503261"));
+        contactList.add(new Contact("Piet", "0666666666"));
     }
 }
