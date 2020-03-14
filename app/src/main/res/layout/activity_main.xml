@@ -12,12 +12,10 @@
         android:orientation="horizontal"
         android:baselineAligned="false">
 
-        <fragment
-            android:id="@+id/contactFragment"
-            class="com.example.androidassessment.ContactFragment"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </LinearLayout>
 
 
