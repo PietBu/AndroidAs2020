@@ -13,6 +13,11 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactViewHolder>{
 
     private List<Contact> contactSet;
 
+    public ContactAdapter(List<Contact> contacts)
+    {
+        this.contactSet = contacts;
+    }
+
     @NonNull
     @Override
     public ContactViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
