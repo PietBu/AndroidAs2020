@@ -3,12 +3,14 @@ package com.example.androidassessment;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.widget.Adapter;
 import android.widget.Toast;
 
 import com.example.androidassessment.dummy.DummyContent;
@@ -29,21 +31,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        RecyclerView recyclerView = findViewById(R.id.recycler);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        contactList = new ArrayList<>();
-
-        if(ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED)
-        {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_CONTACTS}, READ_CONTACT_PERMISSION_REQUEST);
-        }
-
-        // Read Contacts
-        readContacts();
-        Toast.makeText(this, "Contacts Added.", Toast.LENGTH_SHORT).show();
-        recyclerView.setAdapter(new ContactAdapter(contactList));
+        // Ask for permissions
+        askPermissions();
     }
 
     @Override
@@ -58,6 +47,15 @@ public class MainActivity extends AppCompatActivity {
                     READ_CONTACT_PERMISSION_GRANTED = true;
                 }
             }
+        }
+    }
+
+    private void askPermissions(){
+        if(ContextCompat.checkSelfPermission(this,
+                Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_CONTACTS}, READ_CONTACT_PERMISSION_REQUEST);
         }
     }
 

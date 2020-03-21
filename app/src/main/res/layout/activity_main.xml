@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -12,9 +13,13 @@
         android:orientation="horizontal"
         android:baselineAligned="false">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler"
+        <fragment
+            android:name="com.example.androidassessment.ContactFragment"
+            android:id="@+id/recycler_fragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent">
+        </fragment>
+
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
