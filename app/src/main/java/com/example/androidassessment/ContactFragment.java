@@ -1,8 +1,12 @@
 package com.example.androidassessment;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.ArraySet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class ContactFragment extends Fragment {
 
@@ -35,6 +40,26 @@ public class ContactFragment extends Fragment {
 
         ContactAdapter adapter = new ContactAdapter(getContext(), readContactList());
         recyclerView.setAdapter(adapter);
+
+        // Basic API test
+        final ArrayList<String> foundDescs = new ArrayList<String>();
+        final Activity fragmentActivity = this.getActivity();
+        UrbanDictService.getInstance(fragmentActivity).getAllDescriptions(new ManyDescriptionVolleyCallback() {
+            @Override
+            public void onSuccessResponse(ArrayList<String> foundDescriptions) {
+                String collectionName = "descFavourites";
+
+                SharedPreferences sharedPref = fragmentActivity.getSharedPreferences("pokedroid-preferences", Context.MODE_PRIVATE);
+                Set<String> set = sharedPref.getStringSet(collectionName, new ArraySet<String>());
+                for (int i = 0; i < foundDescriptions.size(); i++) {
+                    String description = foundDescriptions.get(i);
+                    // TODO: separate "favorite" descriptions
+                }
+                foundDescs.addAll(foundDescriptions);
+            }
+        }, "maarten");
+
+        foundDescs.size();
 
         return view;
     }
