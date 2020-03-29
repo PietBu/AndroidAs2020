@@ -10,6 +10,7 @@ import android.util.ArraySet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -20,7 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class ContactFragment extends Fragment {
+public class ContactFragment extends Fragment
+    implements RecyclerClickListener {
 
     private RecyclerView recyclerView;
     private View view;
@@ -38,7 +40,7 @@ public class ContactFragment extends Fragment {
         RecyclerView.LayoutManager layoutManager = linearLayoutManager;
         recyclerView.setLayoutManager(layoutManager);
 
-        ContactAdapter adapter = new ContactAdapter(getContext(), readContactList());
+        ContactAdapter adapter = new ContactAdapter(this.getContext(), readContactList(), this);
         recyclerView.setAdapter(adapter);
 
         // Basic API test
@@ -82,5 +84,10 @@ public class ContactFragment extends Fragment {
         }
 
         return contactList;
+    }
+
+    @Override
+    public void RecyclerListClicked(View v, int position) {
+        String s = "load detail fragment I guess";
     }
 }

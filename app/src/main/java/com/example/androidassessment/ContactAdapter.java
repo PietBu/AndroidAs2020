@@ -16,10 +16,13 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
 
     private List<Contact> contactList;
 
-    public ContactAdapter(Context context, List<Contact> contactList)
+    private static RecyclerClickListener itemListener;
+
+    public ContactAdapter(Context context, List<Contact> contactList, RecyclerClickListener listener)
     {
         this.context = context;
         this.contactList = contactList;
+        itemListener = listener;
     }
 
     @Override
@@ -46,7 +49,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         return contactList.size();
     }
 
-    class ContactViewHolder extends RecyclerView.ViewHolder {
+    class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         TextView name, phoneNumber;
 
@@ -56,6 +59,12 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
 
             name = view.findViewById(R.id.name);
             phoneNumber = view.findViewById(R.id.phonenumber);
+            view.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            itemListener.RecyclerListClicked(v, this.getLayoutPosition());
         }
     }
 }

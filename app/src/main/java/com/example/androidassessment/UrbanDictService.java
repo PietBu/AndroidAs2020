@@ -50,17 +50,17 @@ public class UrbanDictService {
     }
 
     public void getAllDescriptions(final ManyDescriptionVolleyCallback callback, String name) {
-        String url = "http://api.urbandictionary.com/v0/define?term="+name;
+        String url = "https://api.urbandictionary.com/v0/define?term="+name;
         final ArrayList<String> descriptions = new ArrayList<String>();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         Log.i("Descriptions", response);
-                        //Convert to Pokemon
                         try {
                             JSONObject object = new JSONObject(response);
-                            JSONArray jsonArray = object.getJSONArray("results");
+//                            JSONArray jsonArray = object.getJSONArray("results");
+                            JSONArray jsonArray = object.getJSONArray("list");
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonobject = jsonArray.getJSONObject(i);
