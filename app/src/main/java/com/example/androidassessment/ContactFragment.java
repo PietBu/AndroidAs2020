@@ -21,8 +21,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class ContactFragment extends Fragment
-    implements RecyclerClickListener {
+public class ContactFragment extends Fragment implements RecyclerClickListener {
+//    public interface OnItemSelectedListener{
+//        public void onItemSelected(Contact c);
+//    }
+//
+//    private OnItemSelectedListener onItemSelectedListener;
 
     private RecyclerView recyclerView;
     private View view;
@@ -40,28 +44,42 @@ public class ContactFragment extends Fragment
         RecyclerView.LayoutManager layoutManager = linearLayoutManager;
         recyclerView.setLayoutManager(layoutManager);
 
-        ContactAdapter adapter = new ContactAdapter(this.getContext(), readContactList(), this);
+        final ContactAdapter adapter = new ContactAdapter(this.getContext(), readContactList(), this);
         recyclerView.setAdapter(adapter);
 
-        // Basic API test
-        final ArrayList<String> foundDescs = new ArrayList<String>();
-        final Activity fragmentActivity = this.getActivity();
-        UrbanDictService.getInstance(fragmentActivity).getAllDescriptions(new ManyDescriptionVolleyCallback() {
-            @Override
-            public void onSuccessResponse(ArrayList<String> foundDescriptions) {
-                String collectionName = "descFavourites";
+//        recyclerView.setOnClickListener(new AdapterView.OnClickListener(){
+//            public void onItemClick(AdapterView parent, View v, int position, long id)
+//            {
+//                onItemSelectedListener.onItemSelected(adapter.getItemId(position));
+//            }
+//        });
 
-                SharedPreferences sharedPref = fragmentActivity.getSharedPreferences("pokedroid-preferences", Context.MODE_PRIVATE);
-                Set<String> set = sharedPref.getStringSet(collectionName, new ArraySet<String>());
-                for (int i = 0; i < foundDescriptions.size(); i++) {
-                    String description = foundDescriptions.get(i);
-                    // TODO: separate "favorite" descriptions
-                }
-                foundDescs.addAll(foundDescriptions);
-            }
-        }, "maarten");
+//        recyclerView.setOnClickListener(new AdapterView.OnClickListener(){
+//            @Override
+//            public void onItemClick(AdapterView parent, View v, int position, long id) {
+//                onItemSelectedListener.onItemSelected(adapter.getItemId(position));
+//            }
+//        });
 
-        foundDescs.size();
+//        // Basic API test
+//        final ArrayList<String> foundDescs = new ArrayList<String>();
+//        final Activity fragmentActivity = this.getActivity();
+//        UrbanDictService.getInstance(fragmentActivity).getAllDescriptions(new ManyDescriptionVolleyCallback() {
+//            @Override
+//            public void onSuccessResponse(ArrayList<String> foundDescriptions) {
+//                String collectionName = "descFavourites";
+//
+//                SharedPreferences sharedPref = fragmentActivity.getSharedPreferences("pokedroid-preferences", Context.MODE_PRIVATE);
+//                Set<String> set = sharedPref.getStringSet(collectionName, new ArraySet<String>());
+//                for (int i = 0; i < foundDescriptions.size(); i++) {
+//                    String description = foundDescriptions.get(i);
+//                    // TODO: separate "favorite" descriptions
+//                }
+//                foundDescs.addAll(foundDescriptions);
+//            }
+//        }, "maarten");
+//
+//        foundDescs.size();
 
         return view;
     }
@@ -87,7 +105,8 @@ public class ContactFragment extends Fragment
     }
 
     @Override
-    public void RecyclerListClicked(View v, int position) {
-        String s = "load detail fragment I guess";
+    public void RecyclerListClicked(Contact c) {
+        String sTestCheckPoint = "Might be deletable";
+
     }
 }

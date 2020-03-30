@@ -17,12 +17,14 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
     private List<Contact> contactList;
 
     private static RecyclerClickListener itemListener;
+//    private static ContactFragment.OnItemSelectedListener itemListener;
 
-    public ContactAdapter(Context context, List<Contact> contactList, RecyclerClickListener listener)
+//    public ContactAdapter(Context context, List<Contact> contactList, ContactFragment.OnItemSelectedListener listen)
+    public ContactAdapter(Context context, List<Contact> contactList, RecyclerClickListener listen)
     {
         this.context = context;
         this.contactList = contactList;
-        itemListener = listener;
+        itemListener = listen;
     }
 
     @Override
@@ -64,7 +66,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
 
         @Override
         public void onClick(View v) {
-            itemListener.RecyclerListClicked(v, this.getLayoutPosition());
+//            itemListener.onItemSelected(contactList.get(this.getLayoutPosition()));
+            itemListener.RecyclerListClicked(contactList.get(this.getLayoutPosition()));
         }
     }
 }

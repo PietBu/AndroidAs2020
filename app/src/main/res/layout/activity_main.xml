@@ -20,6 +20,13 @@
             android:layout_height="match_parent">
         </fragment>
 
+        <fragment
+            android:name="com.example.androidassessment.DetailViewFragment"
+            android:id="@+id/detail_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </fragment>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

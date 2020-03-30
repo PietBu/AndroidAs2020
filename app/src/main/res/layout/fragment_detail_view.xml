@@ -15,21 +15,21 @@
         <TextView
             android:id="@+id/detailDescription"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Description" />
+            android:layout_height="wrap_content"/>
 
         <EditText
             android:id="@+id/detailPhone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:inputType="phone" />
+            android:inputType="phone"
+            android:visibility="invisible"/>
 
         <TextView
             android:id="@+id/detailName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="A detailed name" />
+            android:visibility="invisible"/>
     </LinearLayout>
 
 </FrameLayout>

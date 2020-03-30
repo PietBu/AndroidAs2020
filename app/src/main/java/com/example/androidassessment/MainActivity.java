@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Adapter;
 import android.widget.Toast;
 
@@ -18,7 +20,9 @@ import com.example.androidassessment.dummy.DummyContent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecyclerClickListener {
+//    public class MainActivity extends AppCompatActivity implements ContactFragment.OnItemSelectedListener {
+//public class MainActivity extends AppCompatActivity {
 
     final int READ_CONTACT_PERMISSION_REQUEST = 1;
     boolean READ_CONTACT_PERMISSION_GRANTED = false;
@@ -57,6 +61,26 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.READ_CONTACTS}, READ_CONTACT_PERMISSION_REQUEST);
         }
+    }
+
+//    public void onItemSelected(Contact contact)
+    public void RecyclerListClicked(Contact contact)
+    {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+        {
+            DetailViewFragment detail =(DetailViewFragment)getSupportFragmentManager().findFragmentById(R.id.detail_fragment);
+
+            if (detail != null)
+            {
+                detail.setContact(contact);
+            }
+        }
+        else
+        {
+            DetailViewFragment detail = new DetailViewFragment();
+
+        }
+
     }
 
     private void readContacts() {

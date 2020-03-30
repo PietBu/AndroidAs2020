@@ -3,5 +3,5 @@ package com.example.androidassessment;
 import android.view.View;
 
 public interface RecyclerClickListener {
-    public void RecyclerListClicked(View v, int position);
+    public void RecyclerListClicked(Contact c);
 }
