@@ -20,7 +20,8 @@ import com.example.androidassessment.dummy.DummyContent;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements RecyclerClickListener {
+public class MainActivity extends AppCompatActivity implements ContactAdapter.OnItemSelectedListener {
+//public class MainActivity extends AppCompatActivity implements RecyclerClickListener {
 //    public class MainActivity extends AppCompatActivity implements ContactFragment.OnItemSelectedListener {
 //public class MainActivity extends AppCompatActivity {
 
@@ -86,5 +87,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerClickList
     private void readContacts() {
         contactList.add(new Contact("Maarten", "0631503261"));
         contactList.add(new Contact("Piet", "0666666666"));
+    }
+
+    @Override
+    public void onItemSelected(int position) {
+        Contact charlie = contactList.get(position);
+//        return null;
     }
 }

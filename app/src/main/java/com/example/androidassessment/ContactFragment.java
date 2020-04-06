@@ -21,18 +21,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-public class ContactFragment extends Fragment implements RecyclerClickListener {
+//public class ContactFragment extends Fragment implements RecyclerClickListener {
+public class ContactFragment extends Fragment{
 //    public interface OnItemSelectedListener{
 //        public void onItemSelected(Contact c);
 //    }
 //
-//    private OnItemSelectedListener onItemSelectedListener;
+    private ContactAdapter.OnItemSelectedListener onItemSelectedListener;
 
     private RecyclerView recyclerView;
     private View view;
 
-    public ContactFragment(){
-
+    public ContactFragment(ContactAdapter.OnItemSelectedListener listen){
+        onItemSelectedListener = listen;
     }
 
     @Nullable
@@ -44,12 +45,14 @@ public class ContactFragment extends Fragment implements RecyclerClickListener {
         RecyclerView.LayoutManager layoutManager = linearLayoutManager;
         recyclerView.setLayoutManager(layoutManager);
 
-        final ContactAdapter adapter = new ContactAdapter(this.getContext(), readContactList(), this);
+        final ContactAdapter adapter = new ContactAdapter(this.getContext(), readContactList(), onItemSelectedListener);
+//        final ContactAdapter adapter = new ContactAdapter(this.getContext(), readContactList());
         recyclerView.setAdapter(adapter);
 
-//        recyclerView.setOnClickListener(new AdapterView.OnClickListener(){
+//        recyclerView.setOnClickListener(new AdapterView.OnItemClickListener(){
 //            public void onItemClick(AdapterView parent, View v, int position, long id)
 //            {
+////                onItemSelectedListener.onItemSelected(adapter.getItemId(position));
 //                onItemSelectedListener.onItemSelected(adapter.getItemId(position));
 //            }
 //        });
@@ -104,9 +107,8 @@ public class ContactFragment extends Fragment implements RecyclerClickListener {
         return contactList;
     }
 
-    @Override
-    public void RecyclerListClicked(Contact c) {
-        String sTestCheckPoint = "Might be deletable";
-
-    }
+//    public void RecyclerListClicked(View v, Contact c) {
+//        String s = "load detail fragment I guess";
+//
+//    }
 }

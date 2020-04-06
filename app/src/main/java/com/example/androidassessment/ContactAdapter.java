@@ -11,20 +11,27 @@ import java.util.List;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder>
 {
+    public interface OnItemSelectedListener{
+        public void onItemSelected(int position);
+    }
+
+    private OnItemSelectedListener onItemSelectedListener;
+
     private LayoutInflater layoutInflater;
     private Context context;
 
     private List<Contact> contactList;
 
-    private static RecyclerClickListener itemListener;
+//    private static RecyclerClickListener itemListener;
 //    private static ContactFragment.OnItemSelectedListener itemListener;
 
 //    public ContactAdapter(Context context, List<Contact> contactList, ContactFragment.OnItemSelectedListener listen)
-    public ContactAdapter(Context context, List<Contact> contactList, RecyclerClickListener listen)
+//    public ContactAdapter(Context context, List<Contact> contactList, RecyclerClickListener listen)
+    public ContactAdapter(Context context, List<Contact> contactList, OnItemSelectedListener listen)
     {
         this.context = context;
         this.contactList = contactList;
-        itemListener = listen;
+        onItemSelectedListener = listen;
     }
 
     @Override
@@ -32,7 +39,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.contact_item, parent, false);
 
-        return new ContactViewHolder(view);
+        return new ContactViewHolder(view, onItemSelectedListener);
     }
 
     @Override
@@ -51,23 +58,33 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         return contactList.size();
     }
 
-    class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
+
+//    class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView name, phoneNumber;
+        OnItemSelectedListener onSelectedListener;
 
-        ContactViewHolder(View view)
+        ContactViewHolder(View view, OnItemSelectedListener listen)
         {
             super(view);
 
             name = view.findViewById(R.id.name);
             phoneNumber = view.findViewById(R.id.phonenumber);
+            this.onSelectedListener = listen;
             view.setOnClickListener(this);
         }
 
-        @Override
-        public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
+        onSelectedListener.onItemSelected(this.getLayoutPosition());
+    }
+
+//        @Override
+//        public void onClick(View v) {
 //            itemListener.onItemSelected(contactList.get(this.getLayoutPosition()));
-            itemListener.RecyclerListClicked(contactList.get(this.getLayoutPosition()));
-        }
+////            itemListener.RecyclerListClicked(contactList.get(this.getLayoutPosition()));
+//        }
     }
 }
