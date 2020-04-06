@@ -21,19 +21,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-//public class ContactFragment extends Fragment implements RecyclerClickListener {
-public class ContactFragment extends Fragment{
+public class ContactFragment extends Fragment implements RecyclerClickListener {
+//public class ContactFragment extends Fragment{
 //    public interface OnItemSelectedListener{
-//        public void onItemSelected(Contact c);
+////        public void onItemSelected(Contact c);
+//        public void onItemSelected(int position);
 //    }
-//
-    private ContactAdapter.OnItemSelectedListener onItemSelectedListener;
+
+//    private OnItemSelectedListener onItemSelectedListener;
+    private RecyclerClickListener onItemSelectedListener;
 
     private RecyclerView recyclerView;
     private View view;
 
-    public ContactFragment(ContactAdapter.OnItemSelectedListener listen){
-        onItemSelectedListener = listen;
+//    public ContactFragment(OnItemSelectedListener listen){
+public ContactFragment(){
+//        onItemSelectedListener = listen;
     }
 
     @Nullable
@@ -45,9 +48,16 @@ public class ContactFragment extends Fragment{
         RecyclerView.LayoutManager layoutManager = linearLayoutManager;
         recyclerView.setLayoutManager(layoutManager);
 
-        final ContactAdapter adapter = new ContactAdapter(this.getContext(), readContactList(), onItemSelectedListener);
+        final ContactAdapter adapter = new ContactAdapter(this.getContext(), readContactList(), this);
 //        final ContactAdapter adapter = new ContactAdapter(this.getContext(), readContactList());
         recyclerView.setAdapter(adapter);
+
+//        recyclerView.setOnClickListener(new AdapterView.OnItemClickListener(){
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                onItemSelectedListener.RecyclerListClicked((int) adapter.getItemId(position));
+//            }
+//        });
 
 //        recyclerView.setOnClickListener(new AdapterView.OnItemClickListener(){
 //            public void onItemClick(AdapterView parent, View v, int position, long id)
@@ -111,4 +121,8 @@ public class ContactFragment extends Fragment{
 //        String s = "load detail fragment I guess";
 //
 //    }
+    public void RecyclerListClicked(Contact c) {
+    String s = "load detail fragment I guess";
+
+    }
 }

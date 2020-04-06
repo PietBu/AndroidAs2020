@@ -11,27 +11,27 @@ import java.util.List;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder>
 {
-    public interface OnItemSelectedListener{
-        public void onItemSelected(int position);
-    }
+//    public interface OnItemSelectedListener{
+//        public void onItemSelected(int position);
+//    }
 
-    private OnItemSelectedListener onItemSelectedListener;
+//    private OnItemSelectedListener onItemSelectedListener;
 
     private LayoutInflater layoutInflater;
     private Context context;
 
     private List<Contact> contactList;
 
-//    private static RecyclerClickListener itemListener;
+    private static RecyclerClickListener itemListener;
 //    private static ContactFragment.OnItemSelectedListener itemListener;
 
 //    public ContactAdapter(Context context, List<Contact> contactList, ContactFragment.OnItemSelectedListener listen)
-//    public ContactAdapter(Context context, List<Contact> contactList, RecyclerClickListener listen)
-    public ContactAdapter(Context context, List<Contact> contactList, OnItemSelectedListener listen)
+    public ContactAdapter(Context context, List<Contact> contactList, RecyclerClickListener listen)
+//    public ContactAdapter(Context context, List<Contact> contactList, OnItemSelectedListener listen)
     {
         this.context = context;
         this.contactList = contactList;
-        onItemSelectedListener = listen;
+        itemListener = listen;
     }
 
     @Override
@@ -39,7 +39,8 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.contact_item, parent, false);
 
-        return new ContactViewHolder(view, onItemSelectedListener);
+//        return new ContactViewHolder(view, onItemSelectedListener);
+        return new ContactViewHolder(view, itemListener);
     }
 
     @Override
@@ -64,9 +65,10 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
 class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView name, phoneNumber;
-        OnItemSelectedListener onSelectedListener;
+//        ContactFragment.OnItemSelectedListener onSelectedListener;
+    RecyclerClickListener onSelectedListener;
 
-        ContactViewHolder(View view, OnItemSelectedListener listen)
+        ContactViewHolder(View view, RecyclerClickListener listen)
         {
             super(view);
 
@@ -78,7 +80,8 @@ class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickL
 
     @Override
     public void onClick(View v) {
-        onSelectedListener.onItemSelected(this.getLayoutPosition());
+//        onSelectedListener.onItemSelected(this.getLayoutPosition());
+        onSelectedListener.RecyclerListClicked(contactList.get(this.getLayoutPosition()));
     }
 
 //        @Override
