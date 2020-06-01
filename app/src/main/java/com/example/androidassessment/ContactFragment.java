@@ -1,8 +1,12 @@
 package com.example.androidassessment;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.util.ArraySet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +17,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 public class ContactFragment extends Fragment {
-
-    private RecyclerView recyclerView;
-    private View view;
 
     public ContactFragment(){
 
@@ -27,10 +31,9 @@ public class ContactFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState){
-        view = inflater.inflate(R.layout.frag_contact_list, container, false);
-        recyclerView = view.findViewById(R.id.recycler);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        RecyclerView.LayoutManager layoutManager = linearLayoutManager;
+        View view = inflater.inflate(R.layout.frag_contact_list, container, false);
+        RecyclerView recyclerView = view.findViewById(R.id.recycler);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
 
         ContactAdapter adapter = new ContactAdapter(getContext(), readContactList());
@@ -43,12 +46,12 @@ public class ContactFragment extends Fragment {
 
         List<Contact> contactList = new ArrayList<>();
 
-        Cursor cursor = getContext().getContentResolver().query(
+        @SuppressLint("Recycle") Cursor cursor = Objects.requireNonNull(getContext()).getContentResolver().query(
                 ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                 null, null, null,
                 ContactsContract.Contacts.DISPLAY_NAME + " ASC");
-        //cursor.moveToFirst();
 
+        assert cursor != null;
         while(cursor.moveToNext()){
 
             String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
@@ -57,5 +60,33 @@ public class ContactFragment extends Fragment {
         }
 
         return contactList;
+    }
+
+    private void setDescription(Contact contact, String description) {
+
+        // Retrieve the descriptions from localstorage
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+
+        if(sharedPref.contains(contact.phoneNumber)){
+            editor.remove(contact.phoneNumber);
+            editor.putString(contact.phoneNumber, description);
+        } else{
+            editor.putString(contact.phoneNumber, description);
+        }
+
+        editor.apply();
+    }
+
+    private String getDescription(Contact contact){
+        // Retrieve the descriptions from localstorage
+        SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+
+        if(sharedPref.contains(contact.phoneNumber)){
+            // Get contact by phone number
+            return sharedPref.getString(contact.phoneNumber, "");
+        }
+        return "";
     }
 }

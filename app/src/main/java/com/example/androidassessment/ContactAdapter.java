@@ -5,26 +5,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder>
 {
-    private LayoutInflater layoutInflater;
-    private Context context;
 
     private List<Contact> contactList;
 
-    public ContactAdapter(Context context, List<Contact> contactList)
+    ContactAdapter(Context context, List<Contact> contactList)
     {
-        this.context = context;
         this.contactList = contactList;
     }
 
+    @NonNull
     @Override
     public ContactViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        layoutInflater = LayoutInflater.from(parent.getContext());
+        LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.contact_item, parent, false);
 
         return new ContactViewHolder(view);
@@ -46,7 +46,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         return contactList.size();
     }
 
-    class ContactViewHolder extends RecyclerView.ViewHolder {
+    static class ContactViewHolder extends RecyclerView.ViewHolder {
 
         TextView name, phoneNumber;
 
