@@ -7,7 +7,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -18,38 +18,32 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class UrbanDictService {
-    private static UrbanDictService mInstance;
-    private RequestQueue mRequestQueue;
-    private ImageLoader mImageLoader;
-    private Context mCtx;
+    private Context context;
+    private RequestQueue queue;
+    private static UrbanDictService instance;
 
-    private UrbanDictService(Context context)
-    {
-        mCtx = context;
-        mRequestQueue = getRequestQueue();
+    // Singleton methods
+    private UrbanDictService(Context c) {
+        context = c;
+        queue = getRequestQueue();
     }
-
-    public static synchronized UrbanDictService getInstance(Context context) {
-        if (mInstance == null) {
-            mInstance = new UrbanDictService(context);
+    public static synchronized UrbanDictService getInstance(Context c) {
+        if (instance == null) {
+            instance = new UrbanDictService(c);
         }
-        return mInstance;
+        return instance;
     }
-
     private RequestQueue getRequestQueue() {
-        if (mRequestQueue == null) {
-            // getApplicationContext() is key, it keeps you from leaking the
-            // Activity or BroadcastReceiver if someone passes one in.
-            mRequestQueue = Volley.newRequestQueue(mCtx.getApplicationContext());
+        if (queue == null) {
+            queue = Volley.newRequestQueue(context.getApplicationContext());
         }
-        return mRequestQueue;
+        return queue;
     }
-
     private <T> void addToRequestQueue(Request<T> req) {
         getRequestQueue().add(req);
     }
 
-    public void getAllDescriptions(final ManyDescriptionVolleyCallback callback, String name) {
+    public void getDescriptionsByName(final DescriptionCallback callback, String name) {
         String url = "https://api.urbandictionary.com/v0/define?term="+name;
         final ArrayList<String> descriptions = new ArrayList<String>();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
@@ -59,7 +53,6 @@ public class UrbanDictService {
                         Log.i("Descriptions", response);
                         try {
                             JSONObject object = new JSONObject(response);
-//                            JSONArray jsonArray = object.getJSONArray("results");
                             JSONArray jsonArray = object.getJSONArray("list");
 
                             for (int i = 0; i < jsonArray.length(); i++) {
@@ -80,11 +73,47 @@ public class UrbanDictService {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.d("ADebugTag", "Value: " + error.toString());
+                Log.d("Error", "Value: " + error.toString());
             }
         });
 
-        UrbanDictService.getInstance(mCtx).addToRequestQueue(stringRequest);
+        UrbanDictService.getInstance(context).addToRequestQueue(stringRequest);
     }
 
+    public ArrayList<String> requestDescription(String name) {
+        String url = "https://api.urbandictionary.com/v0/define?term="+name;
+        final ArrayList<String> descriptions = new ArrayList<String>();
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.i("Descriptions", response);
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            JSONArray jsonArray = object.getJSONArray("list");
+
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                JSONObject jsonobject = jsonArray.getJSONObject(i);
+                                String definition = jsonobject.getString("definition");
+                                descriptions.add(definition);
+                            }
+                            if(descriptions.size() == 0)
+                            {
+                                descriptions.add("No descriptions found.");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("Error", "Value: " + error.toString());
+            }
+        });
+
+        UrbanDictService.getInstance(context).addToRequestQueue(stringRequest);
+        return descriptions;
+    }
 }

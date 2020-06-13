@@ -4,22 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.widget.Adapter;
 import android.widget.Toast;
 
-import com.example.androidassessment.dummy.DummyContent;
-
-import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     final int READ_CONTACT_PERMISSION_REQUEST = 1;
     boolean READ_CONTACT_PERMISSION_GRANTED = false;
@@ -34,6 +28,17 @@ public class MainActivity extends AppCompatActivity {
 
         // Ask for permissions
         askPermissions();
+
+        if(READ_CONTACT_PERMISSION_GRANTED){
+            Intent intent = getIntent();
+            String action = intent.getAction();
+            String type = intent.getType();
+            if (Intent.ACTION_SEND.equals(action) && type != null) {
+                if ("text/plain".equals(type)) {
+                    handleSendText(intent);
+                }
+            }
+        }
     }
 
     @Override
@@ -42,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(this, "Permission granted.", Toast.LENGTH_SHORT).show();
                 READ_CONTACT_PERMISSION_GRANTED = true;
+            } else {
+                Toast.makeText(this, "Contacts can't be imported without permission", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -58,5 +65,12 @@ public class MainActivity extends AppCompatActivity {
     private void readContacts() {
         contactList.add(new Contact("Maarten", "0631503261"));
         contactList.add(new Contact("Piet", "0666666666"));
+    }
+
+    void handleSendText(Intent intent) {
+        String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+        if (sharedText != null) {
+            Toast.makeText(this, sharedText, Toast.LENGTH_SHORT).show();
+        }
     }
 }

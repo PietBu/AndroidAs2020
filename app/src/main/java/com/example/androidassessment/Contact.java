@@ -1,6 +1,9 @@
 package com.example.androidassessment;
 
-public class Contact {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class Contact implements Serializable {
 
     public String name;
     String phoneNumber;
@@ -10,5 +13,12 @@ public class Contact {
     {
         this.name = name;
         this.phoneNumber = phoneNumber;
+    }
+
+    Contact(String name, String phoneNumber, String description)
+    {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.description = description;
     }
 }

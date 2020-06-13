@@ -15,10 +15,12 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
 {
 
     private List<Contact> contactList;
+    private OnContactListener _onContactListener;
 
-    ContactAdapter(Context context, List<Contact> contactList)
+    ContactAdapter(Context context, List<Contact> contactList, OnContactListener onContactListener)
     {
         this.contactList = contactList;
+        this._onContactListener = onContactListener;
     }
 
     @NonNull
@@ -27,7 +29,7 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.contact_item, parent, false);
 
-        return new ContactViewHolder(view);
+        return new ContactViewHolder(view, _onContactListener);
     }
 
     @Override
@@ -40,22 +42,38 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         name.setText(contactList.get(position).name);
         phoneNumber.setText(contactList.get(position).phoneNumber);
     }
+    public Contact getItem(int position) {
+        return contactList.get(position);
+    }
 
     @Override
     public int getItemCount() {
         return contactList.size();
     }
 
-    static class ContactViewHolder extends RecyclerView.ViewHolder {
+    static class ContactViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView name, phoneNumber;
+        OnContactListener onContactLister;
 
-        ContactViewHolder(View view)
+        ContactViewHolder(View view, OnContactListener onContactListener)
         {
             super(view);
 
             name = view.findViewById(R.id.name);
             phoneNumber = view.findViewById(R.id.phonenumber);
+            this.onContactLister = onContactListener;
+
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            onContactLister.onContactClick(getAdapterPosition());
+        }
+    }
+
+    public interface OnContactListener {
+        public void onContactClick(int position);
     }
 }
