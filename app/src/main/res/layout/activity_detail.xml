@@ -41,6 +41,15 @@
             android:onClick="onNewDescriptionClick"
             android:text="New Description" />
 
+        <fragment
+            android:name="com.example.androidassessment.DescriptionFragment"
+            android:id="@+id/recycler_fragment"
+            android:tag="recycler_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </fragment>
+
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

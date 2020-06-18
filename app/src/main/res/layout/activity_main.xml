@@ -14,12 +14,6 @@
         android:orientation="horizontal"
         android:baselineAligned="false">
 
-        <FrameLayout
-            android:id="@+id/container"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_weight="1" />
-
         <fragment
             android:name="com.example.androidassessment.ContactFragment"
             android:id="@+id/recycler_fragment"

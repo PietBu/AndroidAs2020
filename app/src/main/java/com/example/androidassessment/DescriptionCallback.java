@@ -1,7 +1,7 @@
 package com.example.androidassessment;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface DescriptionCallback {
-    void onSuccessResponse(ArrayList<String> foundDescriptions);
+    void onSuccessResponse(List<String> foundDescriptions);
 }

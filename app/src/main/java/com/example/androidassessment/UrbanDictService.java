@@ -16,6 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class UrbanDictService {
     private Context context;
@@ -80,21 +81,26 @@ public class UrbanDictService {
         UrbanDictService.getInstance(context).addToRequestQueue(stringRequest);
     }
 
-    public ArrayList<String> requestDescription(String name) {
-        String url = "https://api.urbandictionary.com/v0/define?term="+name;
-        final ArrayList<String> descriptions = new ArrayList<String>();
+    public List<String> requestDescription(String name) {
+        String url = "https://api.urbandictionary.com/v0/define?term="+name.toLowerCase().replace(" ", "%20");
+        Log.d("url", url);
+        final List<String> descriptions = new ArrayList<>();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Log.i("Descriptions", response);
+                        Log.d("Descriptions", response);
                         try {
                             JSONObject object = new JSONObject(response);
+                            Log.d("Object", object.toString());
                             JSONArray jsonArray = object.getJSONArray("list");
+                            Log.d("Array", jsonArray.toString());
 
                             for (int i = 0; i < jsonArray.length(); i++) {
                                 JSONObject jsonobject = jsonArray.getJSONObject(i);
+
                                 String definition = jsonobject.getString("definition");
+                                Log.d("definition", definition);
                                 descriptions.add(definition);
                             }
                             if(descriptions.size() == 0)
@@ -112,7 +118,6 @@ public class UrbanDictService {
                 Log.d("Error", "Value: " + error.toString());
             }
         });
-
         UrbanDictService.getInstance(context).addToRequestQueue(stringRequest);
         return descriptions;
     }
