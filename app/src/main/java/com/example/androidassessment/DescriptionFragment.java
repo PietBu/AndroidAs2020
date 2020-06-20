@@ -59,6 +59,9 @@ public class DescriptionFragment extends Fragment implements DescriptionAdapter.
         Log.d("phone", phoneNumber);
         Log.d("description", descriptionList.get(position).description);
 
+        DetailActivity activity = (DetailActivity) getActivity();
+        activity.setDescription(phoneNumber, descriptionList.get(position).description);
+
     }
 
     @Override

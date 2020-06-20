@@ -1,15 +1,22 @@
 package com.example.androidassessment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Map;
+
 public class DetailActivity extends AppCompatActivity {
     TextView name, phoneNumber, description;
     Contact contact;
+    SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -18,6 +25,8 @@ public class DetailActivity extends AppCompatActivity {
 
         Intent i = getIntent();
         this.contact = (Contact)i.getSerializableExtra("contact");
+        sharedPreferences = getPreferences(MODE_PRIVATE);
+        loadDescription();
 
         name = findViewById(R.id.name);
         phoneNumber = findViewById(R.id.phonenumber);
@@ -29,8 +38,27 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void onNewDescriptionClick(View view) {
-
         DescriptionFragment fragment = (DescriptionFragment) getSupportFragmentManager().findFragmentById(R.id.recycler_fragment);
         fragment.loadDescriptionList(contact.name, contact.phoneNumber);
+    }
+
+    public void setDescription(String phoneNumber, String description){
+        contact.description = description;
+        this.description.setText(contact.description);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(phoneNumber, description);
+        editor.apply();
+        Log.d("saved!", phoneNumber + ", " + description);
+    }
+
+    private void loadDescription(){
+        Object result = sharedPreferences.getString(contact.phoneNumber, null);
+        if(result == null)
+            return;
+
+        contact.description = result.toString();
+        Log.d("result", result.toString());
+
     }
 }
