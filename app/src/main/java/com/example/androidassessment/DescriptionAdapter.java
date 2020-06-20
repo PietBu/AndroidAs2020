@@ -51,7 +51,7 @@ public class DescriptionAdapter extends RecyclerView.Adapter<DescriptionAdapter.
         return descriptionList.size();
     }
 
-    public void setDescriptionList(List<Description> descriptionList){
+    void setDescriptionList(List<Description> descriptionList){
         this.descriptionList = descriptionList;
     }
 
@@ -60,7 +60,7 @@ public class DescriptionAdapter extends RecyclerView.Adapter<DescriptionAdapter.
         TextView description;
         OnDescriptionListener onDescriptionListener;
 
-        public DescriptionViewHolder(View view, OnDescriptionListener onDescriptionListener)
+        DescriptionViewHolder(View view, OnDescriptionListener onDescriptionListener)
         {
             super(view);
             this.onDescriptionListener = onDescriptionListener;

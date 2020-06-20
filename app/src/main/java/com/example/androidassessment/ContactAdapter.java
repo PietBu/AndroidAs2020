@@ -5,10 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.List;
 
 public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactViewHolder>
@@ -42,9 +40,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
         name.setText(contactList.get(position).name);
         phoneNumber.setText(contactList.get(position).phoneNumber);
     }
-    public Contact getItem(int position) {
-        return contactList.get(position);
-    }
 
     @Override
     public int getItemCount() {
@@ -74,6 +69,6 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactV
     }
 
     public interface OnContactListener {
-        public void onContactClick(int position);
+        void onContactClick(int position);
     }
 }

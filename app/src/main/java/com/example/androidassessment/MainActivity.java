@@ -4,20 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity{
 
     final int READ_CONTACT_PERMISSION_REQUEST = 1;
     boolean READ_CONTACT_PERMISSION_GRANTED = false;
-    List<Contact> contactList;
 
     @Override
     // - Startup splash screen
@@ -60,11 +56,6 @@ public class MainActivity extends AppCompatActivity{
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.READ_CONTACTS}, READ_CONTACT_PERMISSION_REQUEST);
         }
-    }
-
-    private void readContacts() {
-        contactList.add(new Contact("Maarten", "0631503261"));
-        contactList.add(new Contact("Piet", "0666666666"));
     }
 
     void handleSendText(Intent intent) {

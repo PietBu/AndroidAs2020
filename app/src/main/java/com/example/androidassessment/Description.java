@@ -2,10 +2,9 @@ package com.example.androidassessment;
 
 import java.io.Serializable;
 
-public class Description implements Serializable {
-    public String description;
-
-    public Description(String description){
+class Description implements Serializable {
+    String description;
+    Description(String description){
         this.description = description;
     }
 }

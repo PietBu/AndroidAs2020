@@ -1,17 +1,13 @@
 package com.example.androidassessment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.Map;
 
 public class DetailActivity extends AppCompatActivity {
     TextView name, phoneNumber, description;
@@ -39,6 +35,9 @@ public class DetailActivity extends AppCompatActivity {
 
     public void onNewDescriptionClick(View view) {
         DescriptionFragment fragment = (DescriptionFragment) getSupportFragmentManager().findFragmentById(R.id.recycler_fragment);
+        if(fragment == null)
+            return;
+
         fragment.loadDescriptionList(contact.name, contact.phoneNumber);
     }
 
