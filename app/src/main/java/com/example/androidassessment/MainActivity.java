@@ -8,57 +8,57 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity{
 
     final int READ_CONTACT_PERMISSION_REQUEST = 1;
-    boolean READ_CONTACT_PERMISSION_GRANTED = false;
 
     @Override
-    // - Startup splash screen
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         // Ask for permissions
         askPermissions();
 
-        if(READ_CONTACT_PERMISSION_GRANTED){
-            Intent intent = getIntent();
-            String action = intent.getAction();
-            String type = intent.getType();
-            if (Intent.ACTION_SEND.equals(action) && type != null) {
-                if ("text/plain".equals(type)) {
-                    handleSendText(intent);
-                }
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+                handleSendText(intent);
             }
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == READ_CONTACT_PERMISSION_REQUEST) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "Permission granted.", Toast.LENGTH_SHORT).show();
-                READ_CONTACT_PERMISSION_GRANTED = true;
-            } else {
-                Toast.makeText(this, "Contacts can't be imported without permission", Toast.LENGTH_SHORT).show();
-            }
+        switch(requestCode) {
+            case READ_CONTACT_PERMISSION_REQUEST:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(this, "Permission granted.", Toast.LENGTH_SHORT).show();
+                    setContentView(R.layout.activity_main);
+                } else {
+                    Toast.makeText(this, "Contacts can't be imported without permission", Toast.LENGTH_SHORT).show();
+                }
+                break;
         }
     }
 
     private void askPermissions(){
-        if(ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED)
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED)
         {
-            ActivityCompat.requestPermissions(this,
-                    new String[]{Manifest.permission.READ_CONTACTS}, READ_CONTACT_PERMISSION_REQUEST);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, READ_CONTACT_PERMISSION_REQUEST);
+        }
+        else{
+            setContentView(R.layout.activity_main);
         }
     }
 
     void handleSendText(Intent intent) {
+        Log.d("tag", "message received");
         String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
         if (sharedText != null) {
             Toast.makeText(this, sharedText, Toast.LENGTH_SHORT).show();
