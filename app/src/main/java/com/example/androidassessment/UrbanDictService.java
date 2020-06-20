@@ -46,7 +46,6 @@ class UrbanDictService {
             new Response.Listener<String>() {
                 @Override
                 public void onResponse(String response) {
-                    Log.i("Descriptions", response);
                     try {
                         JSONObject object = new JSONObject(response);
                         JSONArray jsonArray = object.getJSONArray("list");

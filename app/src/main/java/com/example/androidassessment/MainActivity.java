@@ -8,11 +8,9 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity{
-
     final int READ_CONTACT_PERMISSION_REQUEST = 1;
 
     @Override
@@ -23,6 +21,7 @@ public class MainActivity extends AppCompatActivity{
         // Ask for permissions
         askPermissions();
 
+        // Checks for plain text intent
         Intent intent = getIntent();
         String action = intent.getAction();
         String type = intent.getType();
@@ -33,6 +32,7 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+    // Handles permission requests
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         switch(requestCode) {
@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+    // Checks if dangerous permissions are granted
     private void askPermissions(){
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED)
         {
@@ -57,8 +58,8 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+    // Toasts implicit plain text intent
     void handleSendText(Intent intent) {
-        Log.d("tag", "message received");
         String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
         if (sharedText != null) {
             Toast.makeText(this, sharedText, Toast.LENGTH_SHORT).show();

@@ -3,7 +3,6 @@ package com.example.androidassessment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
@@ -48,7 +47,6 @@ public class DetailActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(phoneNumber, description);
         editor.apply();
-        Log.d("saved!", phoneNumber + ", " + description);
     }
 
     private void loadDescription(){
@@ -57,7 +55,5 @@ public class DetailActivity extends AppCompatActivity {
             return;
 
         contact.description = result.toString();
-        Log.d("result", result.toString());
-
     }
 }

@@ -5,10 +5,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,29 +39,34 @@ public class DescriptionFragment extends Fragment implements DescriptionAdapter.
         return view;
     }
 
+    // Loads list of descriptions by name
     void loadDescriptionList(String name, String phoneNumber){
         this.name = name;
         this.phoneNumber = phoneNumber;
         DetailActivity activity = (DetailActivity) getActivity();
-        UrbanDictService.getInstance(activity).getDescriptionsByName(this, name);
+
+        try{
+            if(!isConnected()){ // No internet connection
+                Toast.makeText(activity, "No internet connection", Toast.LENGTH_SHORT).show();
+            }else{ // Get descriptions
+                UrbanDictService.getInstance(activity).getDescriptionsByName(this, name);
+            }
+        }catch(Exception e){ // Error
+            Toast.makeText(activity, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
-
+    // Sets description when clicked on
     @Override
     public void onDescriptionClick(int position) {
-        // TODO: Set contact description
-        Log.d("name", name);
-        Log.d("phone", phoneNumber);
-        Log.d("description", descriptionList.get(position).description);
-
         DetailActivity activity = (DetailActivity) getActivity();
         if(activity == null)
             return;
 
         activity.setDescription(phoneNumber, descriptionList.get(position).description);
-
     }
 
+    // API response
     @Override
     public void onSuccessResponse(List<String> foundDescriptions) {
         List<Description> descriptionList = new ArrayList<>();
@@ -69,5 +78,11 @@ public class DescriptionFragment extends Fragment implements DescriptionAdapter.
         this.descriptionList = descriptionList;
         adapter.setDescriptionList(descriptionList);
         adapter.notifyDataSetChanged();
+    }
+
+    // Check if device is connected to the internet
+    public boolean isConnected() throws InterruptedException, IOException {
+        final String command = "ping -c 1 google.com";
+        return Runtime.getRuntime().exec(command).waitFor() == 0;
     }
 }

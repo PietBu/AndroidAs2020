@@ -2,7 +2,6 @@ package com.example.androidassessment;
 
 import java.io.Serializable;
 
-@SuppressWarnings("serial")
 public class Contact implements Serializable {
 
     public String name;

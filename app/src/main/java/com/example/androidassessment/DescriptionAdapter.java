@@ -5,10 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.List;
 
 public class DescriptionAdapter extends RecyclerView.Adapter<DescriptionAdapter.DescriptionViewHolder>
@@ -41,9 +39,6 @@ public class DescriptionAdapter extends RecyclerView.Adapter<DescriptionAdapter.
 
         description.setText(currentItem.description);
 
-    }
-    public String getItem(int position) {
-        return descriptionList.get(position).description;
     }
 
     @Override
